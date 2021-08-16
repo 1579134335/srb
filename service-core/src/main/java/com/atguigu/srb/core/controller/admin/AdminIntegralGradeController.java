@@ -48,8 +48,6 @@ public class AdminIntegralGradeController {
         }
     }
 
-<<<<<<< HEAD
-=======
     @ApiOperation("新增积分等级")
     @PostMapping("/save")
     public R save(
@@ -92,6 +90,5 @@ public class AdminIntegralGradeController {
         }
     }
 
->>>>>>> 60a3723 (Initial commit)
 }
 

@@ -1,12 +1,15 @@
 package com.atguigu.srb.core.controller.admin;
 
 
+import com.atguigu.common.exception.BusinessException;
 import com.atguigu.common.result.R;
+import com.atguigu.common.result.ResponseEnum;
 import com.atguigu.srb.core.pojo.entity.IntegralGrade;
 import com.atguigu.srb.core.service.IntegralGradeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.ibatis.builder.BuilderException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -52,6 +55,12 @@ public class AdminIntegralGradeController {
     public R save(
             @ApiParam(value = "积分等级对象",required = true)
             @RequestBody IntegralGrade integralGrade){
+
+//        如果借款额度为空就手动抛出一个自定义的异常！
+        if (integralGrade.getBorrowAmount() == null){
+            throw new BusinessException(ResponseEnum.BORROW_AMOUNT_NULL_ERROR);
+        }
+
         boolean result = integralGradeService.save(integralGrade);
         if (result){
             return R.ok().message("保存成功");

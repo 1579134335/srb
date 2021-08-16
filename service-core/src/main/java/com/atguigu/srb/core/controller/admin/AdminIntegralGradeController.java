@@ -7,7 +7,6 @@ import com.atguigu.srb.core.service.IntegralGradeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.Example;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

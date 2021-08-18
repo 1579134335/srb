@@ -9,6 +9,7 @@ import com.atguigu.srb.core.service.IntegralGradeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.builder.BuilderException;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,7 @@ import java.util.List;
  * @since 2021-08-12
  */
 @Api(tags = "积分等级管理")
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/admin/core/integralGrade")
@@ -34,6 +36,9 @@ public class AdminIntegralGradeController {
     @ApiOperation("积分等级列表")
     @GetMapping("/list")
     public R listAll(){
+        log.info("hi this is log info");
+        log.warn("hi this is log warn");
+        log.error("hi this is log error");
         List<IntegralGrade> list = integralGradeService.list();
         return R.ok().data("list", list).message("获取列表成功");
     }

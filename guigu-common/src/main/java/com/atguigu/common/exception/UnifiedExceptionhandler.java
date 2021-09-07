@@ -1,6 +1,5 @@
 package com.atguigu.common.exception;
 
-import com.atguigu.common.exception.BusinessException;
 import com.atguigu.common.result.R;
 import com.atguigu.common.result.ResponseEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +8,7 @@ import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.jdbc.BadSqlGrammarException;
+import org.springframework.stereotype.Component;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -23,7 +23,8 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 @Slf4j
-@RestControllerAdvice
+@Component //Spring容易自动管理
+@RestControllerAdvice //在controller层添加通知。如果使用@ControllerAdvice，则方法上需要添加@ResponseBody
 public class UnifiedExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)

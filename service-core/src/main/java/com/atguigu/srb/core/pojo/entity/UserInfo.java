@@ -25,6 +25,9 @@ import lombok.EqualsAndHashCode;
 public class UserInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    public static final Integer STATUS_NORMAL = 1;
+    public static final Integer STATUS_LOCKED = 0;
+    public static final String USER_AVATAR = "https://zhanghui-file.oss-cn-beijing.aliyuncs.com/avatar/%E9%95%BF%E6%B1%9F7%E5%8F%B7%20%282%29.jpg";
 
     @ApiModelProperty(value = "编号")
       @TableId(value = "id", type = IdType.AUTO)

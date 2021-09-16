@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Api(tags = "阿里云文件管理")
-@CrossOrigin //跨域
+//@CrossOrigin //跨域
 @RestController
 @RequestMapping("/api/oss/file")
 public class FIleController {
@@ -38,10 +38,10 @@ public class FIleController {
         try {
             InputStream inputStream = file.getInputStream();
             String originalFilename = file.getOriginalFilename();
-            String uploadUrl = fileService.upload(inputStream, module, originalFilename);
+            String url = fileService.upload(inputStream, module, originalFilename);
 
             //返回r对象
-            return R.ok().message("文件上传成功").data("url", uploadUrl);
+            return R.ok().message("文件上传成功").data("url", url);
         } catch (IOException e) {
             throw new BusinessException(ResponseEnum.UPLOAD_ERROR, e);
         }

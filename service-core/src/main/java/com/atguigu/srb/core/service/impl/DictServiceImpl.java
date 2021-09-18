@@ -2,24 +2,20 @@ package com.atguigu.srb.core.service.impl;
 
 import com.alibaba.excel.EasyExcel;
 import com.atguigu.srb.core.listener.ExcelDictDTOListener;
+import com.atguigu.srb.core.mapper.DictMapper;
 import com.atguigu.srb.core.pojo.dto.ExcelDictDTO;
 import com.atguigu.srb.core.pojo.entity.Dict;
-import com.atguigu.srb.core.mapper.DictMapper;
 import com.atguigu.srb.core.service.DictService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -33,8 +29,8 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {
 
-    @Resource
-    private RedisTemplate redisTemplate;
+//    @Resource
+//    private RedisTemplate redisTemplate;
 
     @Transactional(rollbackFor = {Exception.class})
     @Override
@@ -62,16 +58,16 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     @Override
     public List<Dict> listByParentId(Long parentId) {
         //先查询redis中是否存在数据列表
-        List<Dict> dictList = null;
-        try {
-            dictList = (List<Dict>) redisTemplate.opsForValue().get("srb:core:dictList:"+parentId);
-            if (dictList != null){
-                log.info("从redis中取值");
-                return dictList;
-            }
-        }catch (Exception e){
-            log.error("redis异常："+ExceptionUtils.getStackTrace(e));//此处不抛出异常，继续执行后面的代码
-        }
+        List<Dict> dictList;
+//        try {
+//            dictList = (List<Dict>) redisTemplate.opsForValue().get("srb:core:dictList:"+parentId);
+//            if (dictList != null){
+//                log.info("从redis中取值");
+//                return dictList;
+//            }
+//        }catch (Exception e){
+//            log.error("redis异常："+ExceptionUtils.getStackTrace(e));//此处不抛出异常，继续执行后面的代码
+//        }
 
         log.info("从数据库中取值");
         dictList = baseMapper.selectList(new QueryWrapper<Dict>().eq("parent_id", parentId));
@@ -81,13 +77,13 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
             dict.setHasChildren(hasChildren);
         });
 
-        //将数据库存入redis
-        try {
-            redisTemplate.opsForValue().set("srb:core:dictList:"+parentId,dictList,5,TimeUnit.MINUTES);
-            log.info("数据存入redis");
-        }catch (Exception e){
-            log.error("redis服务器异常："+ExceptionUtils.getStackTrace(e));//此处不抛出异常，继续执行后面的代码
-        }
+//        //将数据库存入redis
+//        try {
+//            redisTemplate.opsForValue().set("srb:core:dictList:"+parentId,dictList,5,TimeUnit.MINUTES);
+//            log.info("数据存入redis");
+//        }catch (Exception e){
+//            log.error("redis服务器异常："+ExceptionUtils.getStackTrace(e));//此处不抛出异常，继续执行后面的代码
+//        }
         return dictList;
     }
 
@@ -105,10 +101,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     private boolean hasChildren(Long id) {
         QueryWrapper<Dict> queryWrapper = new QueryWrapper<Dict>().eq("parent_id", id);
         Integer count = baseMapper.selectCount(queryWrapper);
-        if(count.intValue() > 0) {
-            return true;
-        }
-        return false;
+        return count > 0;
     }
 
 

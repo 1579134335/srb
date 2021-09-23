@@ -6,9 +6,9 @@ import com.atguigu.srb.core.enums.UserBindEnum;
 import com.atguigu.srb.core.hfb.FormHelper;
 import com.atguigu.srb.core.hfb.HfbConst;
 import com.atguigu.srb.core.hfb.RequestHelper;
+import com.atguigu.srb.core.mapper.UserBindMapper;
 import com.atguigu.srb.core.mapper.UserInfoMapper;
 import com.atguigu.srb.core.pojo.entity.UserBind;
-import com.atguigu.srb.core.mapper.UserBindMapper;
 import com.atguigu.srb.core.pojo.entity.UserInfo;
 import com.atguigu.srb.core.pojo.vo.UserBindVO;
 import com.atguigu.srb.core.service.UserBindService;
@@ -81,8 +81,8 @@ public class UserBindServiceImpl extends ServiceImpl<UserBindMapper, UserBind> i
     @Resource
     private UserInfoMapper userInfoMapper;
 
-    @Override
     @Transactional(rollbackFor = Exception.class)
+    @Override
     public void notify(Map<String, Object> paramMap) {
         String bindCode = (String) paramMap.get("bindCode");
 
@@ -107,5 +107,4 @@ public class UserBindServiceImpl extends ServiceImpl<UserBindMapper, UserBind> i
         userInfo.setBindStatus(UserBindEnum.BIND_OK.getStatus());
         userInfoMapper.updateById(userInfo);
     }
-
 }
